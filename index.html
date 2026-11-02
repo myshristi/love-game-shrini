@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikhil & Shristi - Our Intimate Sanctuary 💕</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase JS SDK (Compat mode for seamless single-file deployment) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <script>
+        // Firebase Configuration (Demo / Public Sandbox Instance for Nikhil & Shristi Realtime Sync)
+        const firebaseConfig = {
+            databaseURL: "https://nikhil-shristi-love-default-rtdb.firebaseio.com"
+        };
+
+        // Initialize Firebase
+        let dbRef = null;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            dbRef = firebase.database().ref('nikhil_shristi_logs');
+        } catch (e) {
+            console.warn("Firebase initialized in local fallback mode", e);
+        }
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        velvet: '#0c0414',
+                        wine: '#2b071a',
+                        crimson: '#880d1e',
+                        blush: '#f26a8d',
+                        roseGold: '#e3a587',
+                        neonPink: '#ff2a70',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0c0414;
+            color: #f3e8ee;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Luxury Styling */
+        .glass-card {
+            background: rgba(35, 12, 38, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(242, 106, 141, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-nav {
+            background: rgba(12, 4, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(242, 106, 141, 0.15);
+        }
+
+        .neon-glow-pink {
+            box-shadow: 0 0 20px rgba(255, 42, 112, 0.4);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(255, 42, 112, 0.6), 0 0 20px rgba(242, 106, 141, 0.4);
+        }
+
+        /* 3D Flip Card Animation */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .flipped .transform-style-3d {
+            transform: rotateY(180deg);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Login Overlay Styling */
+        #login-overlay {
+            background: radial-gradient(circle at center, #1f0827 0%, #0c0414 100%);
+        }
+
+        /* Ambient floating hearts */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0414;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #880d1e;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff2a70;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen relative pb-16">
+
+    <!-- LOGIN GATE OVERLAY -->
+    <div id="login-overlay" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="glass-card border-neonPink/40 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-6 text-center shadow-2xl relative overflow-hidden">
+            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-crimson to-neonPink flex items-center justify-center mx-auto shadow-lg shadow-neonPink/40">
+                <i data-lucide="lock" class="w-8 h-8 text-white"></i>
+            </div>
+            <div>
+                <h2 class="font-serif font-extrabold text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-roseGold via-blush to-neonPink">
+                    Nikhil & Shristi
+                </h2>
+                <p class="text-xs text-rose-300/80 mt-1">Enter your credentials to access your private sanctuary</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-roseGold mb-1.5">Username</label>
+                    <input type="text" id="login-username" placeholder="Enter 'Nikhil' or 'Shristi'" required
+                        class="w-full px-4 py-3 rounded-xl bg-black/50 border border-rose-900/60 text-white placeholder-rose-300/30 text-sm focus:outline-none focus:border-neonPink transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-roseGold mb-1.5">Passcode</label>
+                    <input type="password" id="login-password" placeholder="••••••" required
+                        class="w-full px-4 py-3 rounded-xl bg-black/50 border border-rose-900/60 text-white placeholder-rose-300/30 text-sm focus:outline-none focus:border-neonPink transition-all">
+                </div>
+                
+                <div id="login-error" class="text-xs text-neonPink text-center font-medium hidden bg-neonPink/10 py-2 rounded-lg border border-neonPink/30">
+                    Access Denied: Invalid credentials.
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-neonPink via-crimson to-wine text-white font-bold text-sm shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="heart-handshake" class="w-4 h-4"></i>
+                    <span>Unlock Sanctuary</span>
+                </button>
+            </form>
+
+            <div class="text-[11px] text-rose-300/50 pt-2 border-t border-rose-900/30">
+                Nikhil's Passcode: <span class="text-roseGold font-mono">645445</span> • Shristi's Passcode: <span class="text-roseGold font-mono">151515</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+
+        <!-- ================= NAVBAR ================= -->
+        <nav class="sticky top-0 z-50 glass-nav py-4 px-6 rounded-b-2xl mb-8 flex justify-between items-center shadow-2xl">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-crimson to-neonPink flex items-center justify-center shadow-lg shadow-neonPink/30">
+                    <i data-lucide="heart" class="w-5 h-5 text-white animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif font-bold text-lg text-roseGold tracking-wider">Nikhil & Shristi</h1>
+                    <p class="text-xs text-rose-300/70">Our Intimate Sanctuary</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <!-- User Profile Indicator -->
+                <div id="user-badge-display" class="hidden sm:flex items-center gap-2 bg-black/40 border border-rose-800/40 px-3 py-1.5 rounded-xl text-xs">
+                    <span class="w-2 h-2 rounded-full bg-neonPink animate-ping"></span>
+                    <span class="text-rose-200">Playing as <strong id="active-user-name" class="text-neonPink">Nikhil</strong></span>
+                </div>
+
+                <!-- Realtime Sync Status Indicator -->
+                <div class="flex items-center gap-1 bg-green-950/60 border border-green-500/30 text-green-300 text-[10px] px-2.5 py-1.5 rounded-xl font-mono">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                    <span>LIVE SYNC</span>
+                </div>
+
+                <button onclick="logoutUser()" title="Switch User" class="p-2 rounded-xl bg-rose-950/60 hover:bg-crimson/50 text-rose-200 border border-blush/30 transition-all">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+
+                <button onclick="switchTab('responses-log')" id="tab-responses-log" class="game-tab flex items-center space-x-1.5 text-xs bg-rose-950/60 hover:bg-crimson/50 text-rose-200 border border-blush/30 px-3.5 py-2 rounded-xl transition-all hover:scale-105">
+                    <i data-lucide="clipboard-list" class="w-4 h-4 text-neonPink"></i>
+                    <span class="hidden sm:inline">Responses Log</span>
+                    <span id="log-badge-count" class="bg-neonPink text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-1">0</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <header class="text-center py-4 space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-crimson/30 border border-neonPink/40 text-rose-200 text-xs font-semibold tracking-widest uppercase shadow-inner">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-neonPink"></i> Created for Nikhil & Shristi <i data-lucide="sparkles" class="w-3.5 h-3.5 text-neonPink"></i>
+            </span>
+            <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-roseGold via-blush to-neonPink tracking-wide neon-text">
+                Tonight is All About Us
+            </h2>
+            <p class="text-rose-200/80 max-w-xl mx-auto text-sm sm:text-base font-light">
+                Dive into sweet dares, test your partner knowledge, scratch surprise coupons, and view all recorded memories in real-time!
+            </p>
+        </header>
+
+        <!-- GAME NAVIGATION TABS -->
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3 my-6">
+            <button onclick="switchTab('couples-quiz')" id="tab-couples-quiz" class="game-tab active flex items-center space-x-2 px-4 py-2.5 rounded-2xl font-medium text-xs sm:text-sm transition-all glass-card border-neonPink/50 text-neonPink shadow-lg">
+                <i data-lucide="brain-circuit" class="w-4 h-4"></i>
+                <span>Couples Quiz</span>
+            </button>
+            <button onclick="switchTab('truth-or-dare')" id="tab-truth-or-dare" class="game-tab flex items-center space-x-2 px-4 py-2.5 rounded-2xl font-medium text-xs sm:text-sm transition-all glass-card text-rose-300 hover:text-white">
+                <i data-lucide="flame" class="w-4 h-4"></i>
+                <span>Truth or Dare</span>
+            </button>
+            <button onclick="switchTab('spin-wheel')" id="tab-spin-wheel" class="game-tab flex items-center space-x-2 px-4 py-2.5 rounded-2xl font-medium text-xs sm:text-sm transition-all glass-card text-rose-300 hover:text-white">
+                <i data-lucide="disc" class="w-4 h-4"></i>
+                <span>Kiss Wheel</span>
+            </button>
+            <button onclick="switchTab('scratch-coupons')" id="tab-scratch-coupons" class="game-tab flex items-center space-x-2 px-4 py-2.5 rounded-2xl font-medium text-xs sm:text-sm transition-all glass-card text-rose-300 hover:text-white">
+                <i data-lucide="ticket" class="w-4 h-4"></i>
+                <span>Scratch Coupons</span>
+            </button>
+        </div>
+
+        <!-- ================= GAME 1: COUPLES QUIZ (10+ QUESTIONS) ================= -->
+        <section id="game-couples-quiz" class="game-section space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto text-center space-y-6">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold text-roseGold">Nikhil & Shristi's Intimate Quiz</h3>
+                    <p class="text-xs text-rose-300/70 mt-1">Answer questions to see how well you know each other's secrets & vibes!</p>
+                </div>
+
+                <div id="quiz-container" class="space-y-6 text-left">
+                    <!-- Quiz dynamically rendered here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GAME 2: TRUTH OR DARE ================= -->
+        <section id="game-truth-or-dare" class="game-section hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto text-center space-y-6">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold text-roseGold">Truth or Dare: Nikhil & Shristi Edition</h3>
+                    <p class="text-xs text-rose-300/70 mt-1">Select an intensity level and tap to reveal intimate prompts</p>
+                </div>
+
+                <!-- Intensity Filter Switches -->
+                <div class="flex justify-center items-center bg-black/40 p-1.5 rounded-2xl border border-rose-900/40 w-fit mx-auto gap-1">
+                    <button onclick="setIntensity('sweet')" id="btn-sweet" class="intensity-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-crimson/50 text-rose-100 shadow">
+                        🌸 Sweet
+                    </button>
+                    <button onclick="setIntensity('spicy')" id="btn-spicy" class="intensity-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all text-rose-300/80 hover:text-white">
+                        😏 Spicy
+                    </button>
+                    <button onclick="setIntensity('steamy')" id="btn-steamy" class="intensity-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all text-rose-300/80 hover:text-white">
+                        🔥 Steamy
+                    </button>
+                </div>
+
+                <!-- Flip Card Container -->
+                <div id="tod-card" class="perspective-1000 w-full h-72 sm:h-80 mx-auto cursor-pointer" onclick="flipTodCard()">
+                    <div class="transform-style-3d relative w-full h-full rounded-3xl shadow-2xl">
+                        <!-- Card Front -->
+                        <div class="absolute inset-0 backface-hidden glass-card rounded-3xl border-2 border-neonPink/40 p-6 flex flex-col items-center justify-center space-y-4 bg-gradient-to-b from-wine/80 to-velvet/90">
+                            <div class="w-16 h-16 rounded-full bg-neonPink/20 flex items-center justify-center text-neonPink border border-neonPink/40 animate-pulse">
+                                <i data-lucide="flame" class="w-8 h-8"></i>
+                            </div>
+                            <span id="tod-type-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-crimson/40 border border-blush/30 text-roseGold">
+                                TRUTH OR DARE
+                            </span>
+                            <p class="text-rose-200 text-sm font-light">Tap to reveal your prompt...</p>
+                        </div>
+                        <!-- Card Back -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 glass-card rounded-3xl border-2 border-roseGold/50 p-6 sm:p-8 flex flex-col items-center justify-center text-center space-y-4 bg-gradient-to-b from-crimson/40 to-velvet/95">
+                            <span id="tod-category-tag" class="text-xs font-bold uppercase tracking-widest text-neonPink">
+                                TRUTH • SWEET
+                            </span>
+                            <p id="tod-prompt-text" class="text-lg sm:text-xl font-medium text-rose-100 leading-relaxed max-w-md">
+                                "What was the very first detail you noticed about me?"
+                            </p>
+                            <span class="text-xs text-roseGold/60 italic">Tap again to flip card back</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex justify-center gap-4">
+                    <button onclick="drawPrompt('truth')" class="flex-1 sm:flex-none px-6 py-3 rounded-2xl bg-gradient-to-r from-crimson to-rose-900 hover:from-rose-800 hover:to-crimson text-white font-bold text-sm shadow-lg border border-blush/20 hover:scale-105 transition-all">
+                        Draw Truth 💬
+                    </button>
+                    <button onclick="drawPrompt('dare')" class="flex-1 sm:flex-none px-6 py-3 rounded-2xl bg-gradient-to-r from-neonPink to-crimson hover:from-pink-600 hover:to-neonPink text-white font-bold text-sm shadow-lg border border-neonPink/40 hover:scale-105 transition-all">
+                        Draw Dare 🔥
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GAME 3: SPIN THE WHEEL ================= -->
+        <section id="game-spin-wheel" class="game-section hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto text-center space-y-6">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold text-roseGold">Spin the Wheel of Kisses</h3>
+                    <p class="text-xs text-rose-300/70 mt-1">Spin to see what sweet action Nikhil & Shristi must fulfill!</p>
+                </div>
+
+                <div class="relative w-72 h-72 sm:w-80 sm:h-80 mx-auto flex items-center justify-center">
+                    <!-- Pointer -->
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[24px] border-t-neonPink filter drop-shadow-[0_0_8px_rgba(255,42,112,0.8)]"></div>
+                    
+                    <!-- Canvas Wheel -->
+                    <canvas id="wheel-canvas" width="320" height="320" class="w-full h-full rounded-full border-4 border-roseGold/30 shadow-2xl"></canvas>
+
+                    <!-- Center Spin Button -->
+                    <button onclick="spinWheel()" id="spin-btn" class="absolute z-20 w-16 h-16 rounded-full bg-gradient-to-br from-neonPink to-crimson text-white font-bold text-xs uppercase tracking-wider border-2 border-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+                        SPIN!
+                    </button>
+                </div>
+
+                <!-- Result Box -->
+                <div id="wheel-result-box" class="bg-black/40 p-4 rounded-2xl border border-rose-900/50 min-h-[72px] flex items-center justify-center text-center">
+                    <p id="wheel-result-text" class="text-rose-200 text-sm font-medium">Click **SPIN!** to play!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GAME 4: SCRATCH & REVEAL COUPONS ================= -->
+        <section id="game-scratch-coupons" class="game-section hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-3xl mx-auto text-center space-y-6">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold text-roseGold">Scratch & Reveal Romantic Coupons</h3>
+                    <p class="text-xs text-rose-300/70 mt-1">Scratch off the foil with your finger/mouse to redeem special favors</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="scratch-cards-container">
+                    <!-- Dynamic scratch cards rendered here -->
+                </div>
+
+                <button onclick="resetScratchCards()" class="px-5 py-2.5 rounded-xl bg-rose-950/80 hover:bg-crimson/50 text-rose-200 text-xs border border-roseGold/30 transition-all">
+                    Reset Scratch Cards 🔄
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= DASHBOARD: RESPONSES & MEMORY LOG ================= -->
+        <section id="game-responses-log" class="game-section hidden space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-3xl mx-auto space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-rose-900/50 pb-4">
+                    <div class="text-center sm:text-left">
+                        <h3 class="text-2xl font-serif font-bold text-roseGold">Responses & Memory Dashboard</h3>
+                        <p class="text-xs text-rose-300/70 mt-0.5">Live record of all actions with user attribution</p>
+                    </div>
+                    <button onclick="requestClearLogs()" class="px-4 py-2 rounded-xl bg-crimson/40 hover:bg-crimson/80 text-rose-200 border border-blush/30 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        <span>Clear Log History</span>
+                    </button>
+                </div>
+
+                <!-- Log Filters -->
+                <div class="flex justify-center sm:justify-start gap-2">
+                    <button onclick="setLogFilter('all')" id="filter-all" class="log-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-neonPink/20 text-neonPink border border-neonPink/40">
+                        All Logs
+                    </button>
+                    <button onclick="setLogFilter('Shristi')" id="filter-Shristi" class="log-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-300/70 hover:text-white border border-rose-900/40">
+                        Shristi's Actions
+                    </button>
+                    <button onclick="setLogFilter('Nikhil')" id="filter-Nikhil" class="log-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-300/70 hover:text-white border border-rose-900/40">
+                        Nikhil's Actions
+                    </button>
+                </div>
+
+                <div id="responses-log-content" class="space-y-4">
+                    <!-- Dynamic Log Entries rendered here -->
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- CUSTOM CONFIRMATION & TOAST MODAL -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-card border-neonPink/50 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-crimson/30 text-neonPink flex items-center justify-center mx-auto border border-neonPink/40">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+            </div>
+            <h4 class="text-lg font-bold font-serif text-roseGold">Clear Memory History?</h4>
+            <p class="text-xs text-rose-200/80">Are you sure you want to delete all saved quiz responses, dares, and coupon records for Nikhil & Shristi?</p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeModal()" class="flex-1 py-2.5 rounded-xl bg-rose-950/80 text-rose-200 text-xs font-medium border border-rose-800/40 hover:bg-rose-900/60 transition-all">Cancel</button>
+                <button onclick="confirmClearLogs()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-neonPink to-crimson text-white text-xs font-bold shadow-lg hover:brightness-110 transition-all">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO SYNTHESIZER VIA WEB AUDIO API -->
+    <script>
+        // AUTHENTICATION LOGIC
+        let currentUser = localStorage.getItem('ns_active_user') || null;
+        let activeLogFilter = 'all';
+        let liveCloudLogs = [];
+
+        const validCredentials = {
+            'nikhil': { name: 'Nikhil', passcode: '645445' },
+            'shristi': { name: 'Shristi', passcode: '151515' }
+        };
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const userVal = document.getElementById('login-username').value.trim().toLowerCase();
+            const passVal = document.getElementById('login-password').value.trim();
+            const errBox = document.getElementById('login-error');
+
+            if (validCredentials[userVal] && validCredentials[userVal].passcode === passVal) {
+                currentUser = validCredentials[userVal].name;
+                localStorage.setItem('ns_active_user', currentUser);
+                document.getElementById('login-overlay').classList.add('hidden');
+                updateUserDisplay();
+                errBox.classList.add('hidden');
+                playWinSound();
+            } else {
+                errBox.innerText = `Access Denied: Invalid passcode for ${userVal ? userVal.charAt(0).toUpperCase() + userVal.slice(1) : 'user'}`;
+                errBox.classList.remove('hidden');
+                playTickSound();
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('ns_active_user');
+            currentUser = null;
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+            document.getElementById('login-overlay').classList.remove('hidden');
+        }
+
+        function updateUserDisplay() {
+            if (currentUser) {
+                document.getElementById('active-user-name').innerText = currentUser;
+                document.getElementById('login-overlay').classList.add('hidden');
+            } else {
+                document.getElementById('login-overlay').classList.remove('hidden');
+            }
+        }
+
+        // REAL-TIME CLOUD STORAGE & SYNC (FIREBASE + FALLBACK)
+        function saveResponseLog(type, details) {
+            const user = currentUser || 'Anonymous';
+            const newEntry = {
+                id: Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                user: user,
+                timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                type: type,
+                details: details
+            };
+
+            // Push to Firebase Realtime Database
+            if (dbRef) {
+                dbRef.push(newEntry);
+            }
+
+            // Fallback to localStorage
+            const localLogs = JSON.parse(localStorage.getItem('ns_love_logs') || '[]');
+            localLogs.unshift(newEntry);
+            localStorage.setItem('ns_love_logs', JSON.stringify(localLogs));
+        }
+
+        function initRealtimeDatabaseListener() {
+            if (dbRef) {
+                dbRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    liveCloudLogs = [];
+                    if (data) {
+                        Object.keys(data).forEach(key => {
+                            liveCloudLogs.unshift(data[key]);
+                        });
+                    }
+                    updateLogBadgeCount();
+                    const logSection = document.getElementById('game-responses-log');
+                    if (logSection && !logSection.classList.contains('hidden')) {
+                        renderResponseLogs();
+                    }
+                });
+            }
+        }
+
+        function getLogs() {
+            if (liveCloudLogs && liveCloudLogs.length > 0) {
+                return liveCloudLogs;
+            }
+            try {
+                return JSON.parse(localStorage.getItem('ns_love_logs') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function setLogFilter(filter) {
+            activeLogFilter = filter;
+            document.querySelectorAll('.log-filter-btn').forEach(btn => {
+                btn.className = 'log-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-300/70 hover:text-white border border-rose-900/40';
+            });
+            const activeBtn = document.getElementById('filter-' + filter);
+            if (activeBtn) {
+                activeBtn.className = 'log-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-neonPink/20 text-neonPink border border-neonPink/40';
+            }
+            renderResponseLogs();
+        }
+
+        function updateLogBadgeCount() {
+            const logs = getLogs();
+            const badge = document.getElementById('log-badge-count');
+            if (badge) badge.innerText = logs.length;
+        }
+
+        function requestClearLogs() {
+            const modal = document.getElementById('custom-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function confirmClearLogs() {
+            if (dbRef) {
+                dbRef.remove();
+            }
+            localStorage.removeItem('ns_love_logs');
+            liveCloudLogs = [];
+            closeModal();
+            updateLogBadgeCount();
+            renderResponseLogs();
+            playTickSound();
+        }
+
+        function renderResponseLogs() {
+            const container = document.getElementById('responses-log-content');
+            if (!container) return;
+
+            let logs = getLogs();
+
+            if (activeLogFilter !== 'all') {
+                logs = logs.filter(l => l.user === activeLogFilter);
+            }
+
+            if (logs.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 text-rose-300/60 space-y-2">
+                        <i data-lucide="clipboard" class="w-10 h-10 mx-auto stroke-1 text-rose-300/40"></i>
+                        <p class="text-sm">No recorded actions found in real-time cloud sync!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = logs.map(log => {
+                let badgeColor = 'bg-crimson/50 text-rose-200';
+                let icon = 'sparkles';
+
+                if (log.type === 'Quiz') {
+                    badgeColor = 'bg-neonPink/30 text-neonPink border border-neonPink/40';
+                    icon = 'brain-circuit';
+                } else if (log.type === 'TruthOrDare') {
+                    badgeColor = 'bg-roseGold/20 text-roseGold border border-roseGold/40';
+                    icon = 'flame';
+                } else if (log.type === 'Coupon') {
+                    badgeColor = 'bg-purple-900/50 text-purple-200 border border-purple-500/30';
+                    icon = 'ticket';
+                } else if (log.type === 'Wheel') {
+                    badgeColor = 'bg-wine/80 text-rose-100 border border-rose-500/30';
+                    icon = 'disc';
+                }
+
+                const userBadgeStyle = log.user === 'Shristi' 
+                    ? 'bg-pink-500/20 text-pink-300 border-pink-500/40' 
+                    : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40';
+
+                return `
+                    <div class="p-4 rounded-2xl bg-black/40 border border-rose-900/40 flex items-start gap-3.5 shadow-sm transition-all animate-fadeIn">
+                        <div class="p-2.5 rounded-xl ${badgeColor} shrink-0 mt-0.5">
+                            <i data-lucide="${icon}" class="w-4 h-4"></i>
+                        </div>
+                        <div class="flex-1 text-left space-y-1">
+                            <div class="flex justify-between items-center text-xs gap-2">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${userBadgeStyle}">${log.user || 'Unknown'}</span>
+                                    <span class="font-bold uppercase tracking-wider text-roseGold text-[11px]">${log.type}</span>
+                                </div>
+                                <span class="text-rose-300/60 text-[11px]">${log.timestamp}</span>
+                            </div>
+                            <p class="text-sm text-rose-100 font-medium">${log.user || 'User'} ${log.details}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // TAB SWITCHING LOGIC
+        function switchTab(tabId) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.game-tab').forEach(el => {
+                el.classList.remove('border-neonPink/50', 'text-neonPink', 'shadow-lg');
+                el.classList.add('text-rose-300');
+            });
+
+            document.getElementById('game-' + tabId).classList.remove('hidden');
+            const activeTabBtn = document.getElementById('tab-' + tabId);
+            if (activeTabBtn) {
+                activeTabBtn.classList.add('border-neonPink/50', 'text-neonPink', 'shadow-lg');
+                activeTabBtn.classList.remove('text-rose-300');
+            }
+
+            if (tabId === 'spin-wheel') {
+                drawWheel();
+            } else if (tabId === 'scratch-coupons') {
+                initScratchCards();
+            } else if (tabId === 'couples-quiz') {
+                renderQuiz();
+            } else if (tabId === 'responses-log') {
+                renderResponseLogs();
+            }
+        }
+
+        // ================= GAME 1: EXPANDED QUIZ (10 QUESTIONS) =================
+        const quizQuestions = [
+            {
+                q: "1. What is Shristi's absolute favorite way Nikhil comforts her when she's stressed?",
+                options: ["Tight bear hugs & forehead kisses", "Bringing delicious food & sweets", "Listening quietly while she vents", "A soothing foot or back massage"],
+                correct: 0
+            },
+            {
+                q: "2. Who confessed their feelings first between Nikhil & Shristi?",
+                options: ["Nikhil confessed first!", "Shristi confessed first!", "It was completely mutual at the same time", "We both flirted until it was obvious"],
+                correct: 0
+            },
+            {
+                q: "3. What is our dream late-night vibe for a romantic date?",
+                options: ["Cozy blanket nest with movies & hot tea", "Late night drive with warm music", "Candlelit dinner with wine & deep talks", "Stargazing and holding hands"],
+                correct: 1
+            },
+            {
+                q: "4. Which physical feature of Nikhil does Shristi adore the most?",
+                options: ["His warm eyes", "His sweet smile", "His gentle hands", "His messy hair"],
+                correct: 1
+            },
+            {
+                q: "5. Which physical feature of Shristi does Nikhil admire the most?",
+                options: ["Her glowing smile", "Her captivating eyes", "Her cute laugh", "All of the above without exception!"],
+                correct: 3
+            },
+            {
+                q: "6. What instant turn-on or sweet gesture turns any bad day around?",
+                options: ["Surprise neck kiss from behind", "Spontaneous romantic compliment", "Holding hands tightly in public", "Bringing favorite snack unprompted"],
+                correct: 0
+            },
+            {
+                q: "7. Where is our absolute favorite place to cuddle?",
+                options: ["Under a heavy warm quilt", "Sofa during a rainstorm", "Car passenger seat on long drives", "Anywhere, as long as we're close"],
+                correct: 3
+            },
+            {
+                q: "8. What is our most iconic shared habit?",
+                options: ["Finishing each other's sentences", "Making ridiculous inside jokes", "Stealing glances when the other isn't looking", "All of these combined!"],
+                correct: 3
+            },
+            {
+                q: "9. If Nikhil & Shristi had 24 hours with no phones or distractions, what would we do?",
+                options: ["Stay in bed all day talking & cuddling", "Go on a road trip adventure", "Cook a big meal together & play games", "Binge watch our favorite show together"],
+                correct: 0
+            },
+            {
+                q: "10. What promise do Nikhil & Shristi hold closest to their hearts?",
+                options: ["Always choose each other every day", "Never go to bed upset", "Travel the world together", "Keep making each other laugh forever"],
+                correct: 0
+            }
+        ];
+
+        let quizScore = 0;
+        let currentQuestion = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (!container) return;
+
+            if (currentQuestion >= quizQuestions.length) {
+                saveResponseLog('Quiz', `Completed Quiz with score ${quizScore}/${quizQuestions.length}! Perfect match synergy!`);
+                container.innerHTML = `
+                    <div class="text-center space-y-4 py-6">
+                        <div class="w-16 h-16 rounded-full bg-neonPink/20 text-neonPink flex items-center justify-center mx-auto text-2xl font-bold border border-neonPink/40">
+                            🏆
+                        </div>
+                        <h4 class="text-2xl font-serif font-bold text-roseGold">Quiz Complete!</h4>
+                        <p class="text-rose-200 text-sm">Nikhil & Shristi achieved a score of <span class="text-neonPink font-bold text-lg">${quizScore}/${quizQuestions.length}</span>!</p>
+                        <p class="text-xs text-rose-300/80 italic">"Your answer responses have been saved to the Memory Log!"</p>
+                        <button onclick="restartQuiz()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-neonPink to-crimson text-white text-xs font-bold shadow-lg">Retake Quiz 🔄</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = quizQuestions[currentQuestion];
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center text-xs text-rose-300">
+                        <span class="font-semibold text-roseGold">Question ${currentQuestion + 1} of ${quizQuestions.length}</span>
+                        <span>Score: ${quizScore}</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="w-full h-1.5 bg-black/50 rounded-full overflow-hidden border border-rose-900/30">
+                        <div class="h-full bg-gradient-to-r from-roseGold to-neonPink transition-all duration-300" style="width: ${((currentQuestion + 1) / quizQuestions.length) * 100}%"></div>
+                    </div>
+                    <h4 class="text-base font-bold text-rose-100">${q.q}</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="answerQuiz(${idx})" class="p-3.5 rounded-xl bg-black/40 hover:bg-crimson/40 border border-rose-900/50 text-rose-200 text-xs text-left transition-all hover:scale-[1.02]">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function answerQuiz(selected) {
+            const q = quizQuestions[currentQuestion];
+            const chosenOptionText = q.options[selected];
+            
+            // Save response to Memory Log
+            saveResponseLog('Quiz', `answered Quiz Q${currentQuestion + 1}: "${chosenOptionText}"`);
+
+            if (selected === q.correct) {
+                quizScore++;
+                playWinSound();
+            } else {
+                playTickSound();
+            }
+
+            currentQuestion++;
+            renderQuiz();
+        }
+
+        function restartQuiz() {
+            quizScore = 0;
+            currentQuestion = 0;
+            renderQuiz();
+        }
+
+        // ================= GAME 2: TRUTH OR DARE DATA & LOGIC =================
+        let currentIntensity = 'sweet';
+        let todFlipped = false;
+
+        const todPrompts = {
+            sweet: {
+                truth: [
+                    "What was the very first detail you noticed about Nikhil / Shristi?",
+                    "What is your absolute favorite physical feature of mine?",
+                    "What is one small everyday thing I do that makes you smile inside?",
+                    "Where is your dream date location for us two?"
+                ],
+                dare: [
+                    "Hold my hands and look into my eyes for 30 full seconds without laughing.",
+                    "Give me a soft kiss on my forehead and whisper your sweetest compliment.",
+                    "Slow dance with me for 1 minute with no music playing.",
+                    "Give me a gentle 2-minute massage right now."
+                ]
+            },
+            spicy: {
+                truth: [
+                    "What outfit of mine do you think makes me look ridiculously attractive?",
+                    "What is the funniest or most romantic dream you've ever had about us?",
+                    "What song instantly reminds you of our relationship?",
+                    "What is one touch of mine that gives you immediate butterflies?"
+                ],
+                dare: [
+                    "Feed me a bite of something delicious using only your lips or eyes closed.",
+                    "Give me 5 gentle kisses on 5 completely different places on my face/neck.",
+                    "Send me a flirty text message right now while sitting right next to me.",
+                    "Whisper a sweet or playful pick-up line in my ear."
+                ]
+            },
+            steamy: {
+                truth: [
+                    "What is one secret fantasy or adventure you've always wanted us to try?",
+                    "Where is the most adventurous place you'd ever want to kiss me?",
+                    "Describe your ideal romantic evening with me in detail...",
+                    "What is your absolute favorite memory of us being affectionate?"
+                ],
+                dare: [
+                    "Give me a 30-second romantic kiss with your eyes closed.",
+                    "Trace your fingers slowly from my hand up to my shoulder while whispering.",
+                    "Give me a passionate kiss that lasts at least 15 uninterrupted seconds.",
+                    "Whisper a sweet secret directly into my ear..."
+                ]
+            }
+        };
+
+        function setIntensity(level) {
+            currentIntensity = level;
+            document.querySelectorAll('.intensity-btn').forEach(btn => {
+                btn.classList.remove('bg-crimson/50', 'text-rose-100', 'shadow');
+                btn.classList.add('text-rose-300/80');
+            });
+            const activeBtn = document.getElementById('btn-' + level);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-crimson/50', 'text-rose-100', 'shadow');
+                activeBtn.classList.remove('text-rose-300/80');
+            }
+        }
+
+        function flipTodCard() {
+            const card = document.getElementById('tod-card');
+            todFlipped = !todFlipped;
+            if (todFlipped) card.classList.add('flipped');
+            else card.classList.remove('flipped');
+        }
+
+        function drawPrompt(type) {
+            const card = document.getElementById('tod-card');
+            todFlipped = false;
+            card.classList.remove('flipped');
+
+            setTimeout(() => {
+                const list = todPrompts[currentIntensity][type];
+                const randomPrompt = list[Math.floor(Math.random() * list.length)];
+
+                document.getElementById('tod-type-badge').innerText = `${type.toUpperCase()} • ${currentIntensity.toUpperCase()}`;
+                document.getElementById('tod-category-tag').innerText = `${type.toUpperCase()} • ${currentIntensity.toUpperCase()}`;
+                document.getElementById('tod-prompt-text').innerText = `"${randomPrompt}"`;
+
+                card.classList.add('flipped');
+                todFlipped = true;
+
+                // Save to Memory Log
+                saveResponseLog('TruthOrDare', `selected ${type.toUpperCase()} (${currentIntensity.toUpperCase()}): "${randomPrompt}"`);
+            }, 300);
+        }
+
+        // ================= GAME 3: SPIN THE WHEEL LOGIC =================
+        const wheelSlices = [
+            { label: 'French Kiss 😘', color: '#ff2a70' },
+            { label: 'Neck Kiss 💋', color: '#880d1e' },
+            { label: '10s Lap Sit 🔥', color: '#2b071a' },
+            { label: 'Whisper Secret 🤫', color: '#e3a587' },
+            { label: 'Soft Massage 💆', color: '#f26a8d' },
+            { label: 'Steamy Dare! 😈', color: '#540813' }
+        ];
+
+        let startAngle = 0;
+        let isSpinning = false;
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const numSlices = wheelSlices.length;
+            const sliceAngle = (2 * Math.PI) / numSlices;
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < numSlices; i++) {
+                const angle = startAngle + i * sliceAngle;
+                ctx.beginPath();
+                ctx.fillStyle = wheelSlices[i].color;
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius - 4, angle, angle + sliceAngle);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(242, 106, 141, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(angle + sliceAngle / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(wheelSlices[i].label, radius - 20, 5);
+                ctx.restore();
+            }
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            const spinAngle = Math.random() * 2000 + 1500;
+            const duration = 4000;
+            let startTime = null;
+            let lastTick = 0;
+
+            function animateSpin(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const easeOut = 1 - Math.pow(1 - Math.min(progress / duration, 1), 3);
+                
+                startAngle = (spinAngle * easeOut * Math.PI) / 180;
+                drawWheel();
+
+                if (progress - lastTick > 120 / (1 - easeOut + 0.1)) {
+                    playTickSound();
+                    lastTick = progress;
+                }
+
+                if (progress < duration) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    isSpinning = false;
+                    playWinSound();
+
+                    const normalizedAngle = (2 * Math.PI - (startAngle % (2 * Math.PI))) % (2 * Math.PI);
+                    const sliceAngle = (2 * Math.PI) / wheelSlices.length;
+                    const index = Math.floor(((normalizedAngle + Math.PI / 2) % (2 * Math.PI)) / sliceAngle);
+                    const winner = wheelSlices[index];
+
+                    document.getElementById('wheel-result-text').innerHTML = `🎉 **Action Unlocked:** <span class="text-neonPink font-bold">${winner.label}</span>`;
+                    
+                    saveResponseLog('Wheel', `spinned the wheel: "${winner.label}"`);
+
+                    confetti({
+                        particleCount: 50,
+                        spread: 60,
+                        origin: { y: 0.6 }
+                    });
+                }
+            }
+
+            requestAnimationFrame(animateSpin);
+        }
+
+        // ================= GAME 4: SCRATCH COUPONS LOGIC =================
+        const couponsData = [
+            { title: "Midnight Massage 💆‍♂️", desc: "Redeemable for a 20-min back & shoulder massage with warm oils." },
+            { title: "Secret Fantasy Reveal 🤫", desc: "Nikhil or Shristi must answer 1 deep romantic question with 100% honesty." },
+            { title: "Late Night Drive & Kisses 🚗", desc: "Late night drive with your favorite playlist & sweet kisses." },
+            { title: "Breakfast in Bed 🥞", desc: "Spoiled morning with pancakes and royal treatment." }
+        ];
+
+        function initScratchCards() {
+            const container = document.getElementById('scratch-cards-container');
+            if (!container || container.children.length > 0) return;
+
+            couponsData.forEach((coupon, idx) => {
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = 'relative w-full h-44 rounded-2xl overflow-hidden glass-card border border-roseGold/30 flex flex-col justify-center items-center p-4 shadow-xl';
+
+                cardWrapper.innerHTML = `
+                    <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-crimson/40 via-wine/60 to-velvet space-y-1">
+                        <span class="text-xs font-bold text-neonPink uppercase tracking-widest">NIKHIL & SHRISTI PERK</span>
+                        <h4 class="text-lg font-bold text-roseGold">${coupon.title}</h4>
+                        <p class="text-xs text-rose-200/80 max-w-xs">${coupon.desc}</p>
+                    </div>
+                    <canvas id="scratch-canvas-${idx}" width="320" height="186" class="absolute inset-0 w-full h-full cursor-pointer z-10"></canvas>
+                `;
+
+                container.appendChild(cardWrapper);
+                setupScratchCanvas(`scratch-canvas-${idx}`, coupon.title);
+            });
+        }
+
+        function setupScratchCanvas(canvasId, couponTitle) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#3a1528';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#e3a587';
+            ctx.font = 'bold 14px "Cinzel", serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('✨ SCRATCH HERE ✨', canvas.width / 2, canvas.height / 2);
+
+            let isScratching = false;
+            let logged = false;
+
+            function scratch(e) {
+                if (!isScratching) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 22, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (!logged) {
+                    logged = true;
+                    saveResponseLog('Coupon', `scratched coupon: "${couponTitle}"`);
+                }
+            }
+
+            canvas.addEventListener('mousedown', () => isScratching = true);
+            canvas.addEventListener('mouseup', () => isScratching = false);
+            canvas.addEventListener('mousemove', scratch);
+
+            canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+            canvas.addEventListener('touchend', () => isScratching = false);
+            canvas.addEventListener('touchmove', scratch);
+        }
+
+        function resetScratchCards() {
+            document.getElementById('scratch-cards-container').innerHTML = '';
+            initScratchCards();
+        }
+
+        // ================= BACKGROUND PARTICLES =================
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 0.7 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.symbol = Math.random() > 0.4 ? '💖' : '✨';
+            }
+
+            update() {
+                this.y -= this.speedY;
+                if (this.y < -20) this.reset();
+            }
+
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText(this.symbol, this.x, this.y);
+                ctx.globalAlpha = 1.0;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 20; i++) particles.push(new Particle());
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateBg);
+        }
+
+        window.onload = function() {
+            initParticles();
+            animateBg();
+            renderQuiz();
+            initRealtimeDatabaseListener();
+            updateLogBadgeCount();
+            updateUserDisplay();
+        };
+    </script>
+</body>
+</html>
